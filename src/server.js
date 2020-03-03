@@ -94,6 +94,8 @@ const handleGet = (request, response, parsedUrl) => {
     htmlHandler.getCSS(request, response);
   } else if (parsedUrl.pathname === '/client.html') {
     htmlHandler.getIndex(request, response);
+  } else if (parsedUrl.pathname === '/') {
+    htmlHandler.getIndex(request, response);
   } else if (parsedUrl.pathname === '/client2.html') {
     htmlHandler.getIndex2(request, response);
   } else if (parsedUrl.pathname === '/getProjects') {
