@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Projects List</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+  <script>
+	//function to send our post request
+    const sendPost = (e, rateForm, num) => {
+      //prevent the browser's default action (to send the form on its own)
+      e.preventDefault();
+	  
+      
+      //grab the forms action (url to go to)
+      //and method (HTTP method - POST in this case)
+      const projectAction = rateForm.getAttribute('action');
+      const projectMethod = rateForm.getAttribute('method');
+	  
+	  let ratingNum = document.getElementsByName('rate' + (num - 1));
+	  console.log(ratingNum);
+	  let ratingVal;
+              
+      for(i = 0; i < ratingNum.length; i++) { 
+          if(ratingNum[i].checked)
+			ratingVal = ratingNum[i].value;
+      } 
+      
+      //grab the form's rating field so we can check user input
+	  //const ratingField = projectForm.querySelector('#projectTxt');
+      
+      //create a new Ajax request (remember this is asynchronous)
+      const xhr = new XMLHttpRequest();
+      //set the method (POST) and url (action field from form)
+      xhr.open(projectMethod, projectAction);
+      
+      //set our request type to x-www-form-urlencoded
+      //which is one of the common types of form data. 
+      //This type has the same format as query strings key=value&key2=value2
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      //set our requested response type in hopes of a JSON response
+      xhr.setRequestHeader ('Accept', 'application/json');
+      
+      //build our x-www-form-urlencoded format. Without ajax the 
+      //browser would do this automatically but it forcefully changes pages
+      //which we don't want.
+      //The format is the same as query strings, so key=value&key2=value2
+      //The 'name' fields from the inputs are the variable names sent to
+      //the server. 
+      //So ours might look like  name=test&age=22
+      //Again the 'name' fields in the form are the variable names in the string
+      //and the variable names the server will look for.
+	  let projectName = rateForm.name.replace(/\s/g, '');
+	  
+	  // first letter appears to have to be lowercase in JSON object
+	  projectName = projectName.charAt(0).toLowerCase() + projectName.substring(1);
+	  
+      const formData = `project=${projectName}&rating=${ratingVal}`;
+      
+      //send our request with the data
+      xhr.send(formData);
+    
+      //return false to prevent the browser from trying to change page
+      return false;
+    };
+	
+  	const modalClicked = (e) => {
+	
+		let contentId;
+		let span;
+		// gets the id for the modal box to display
+		contentId = e.currentTarget.id;
+		contentId = contentId.replace("get", "modal");
+		document.getElementById(contentId).style.display = "flex";
+		
+		// Get the <span> element that closes the modal
+		span = document.getElementById(contentId).children[0];
+		
+		// When the user clicks on <span> (x), close the modal
+		span.onclick = function() {
+			document.getElementById(contentId).style.display = "none";
+		}
+	}
+	
+	//function to handle xhr response
+    const handleResponse = (xhr) => {
+	  //grab the content-type header from the response
+      //This will tell us what the server actually responded with.
+      //Again, the server can ignore our requested types.
+      const type = xhr.getResponseHeader('content-type');
+	  
+	  //grab the content section
+      let content = document.querySelector("#mainDiv2");
+	  
+	  //content.innerHTML = "";
+      
+	  //if the response was in json
+      if(type === 'application/json') {
+		//parse the response text into a JSON object
+        const obj = JSON.parse(xhr.response);
+		let idNum = 1;
+		// loop for making each of the divs and elements to show on the page
+		for (let proj in obj.projects) {
+			//create our div, h1, and p tags and give them classes
+			let div = document.createElement('div');
+			div.className = "getDivs";
+			div.id = "getDiv" + idNum;
+			
+			let h1 = document.createElement('h1');
+			h1.className = "projectTitles";
+		
+			let star1Get = document.createElement('input');
+			star1Get.type = "radio";
+			star1Get.id = "star1Get" + "-" + idNum;
+			star1Get.className = "star1Get";
+			star1Get.name = "rateGet" + idNum;
+			star1Get.value = "1";
+			
+			let star1GetLabel = document.createElement('label');
+			star1GetLabel.htmlFor = "star1Get-" + idNum;
+			
+			let star2Get = document.createElement('input');
+			star2Get.type = "radio";
+			star2Get.id = "star2Get" + "-" + idNum;
+			star2Get.className = "star2Get";
+			star2Get.name = "rateGet" + idNum;
+			star2Get.value = "2";
+			
+			let star2GetLabel = document.createElement('label');
+			star2GetLabel.htmlFor = "star2Get-" + idNum;
+			
+			let star3Get = document.createElement('input');
+			star3Get.type = "radio";
+			star3Get.id = "star3Get" + "-" + idNum;
+			star3Get.className = "star3Get";
+			star3Get.name = "rateGet" + idNum;
+			star3Get.value = "3";
+			
+			let star3GetLabel = document.createElement('label');
+			star3GetLabel.htmlFor = "star3Get-" + idNum;
+			
+			let star4Get = document.createElement('input');
+			star4Get.type = "radio";
+			star4Get.id = "star4Get" + "-" + idNum;
+			star4Get.className = "star4Get";
+			star4Get.name = "rateGet" + idNum;
+			star4Get.value = "4";
+			
+			let star4GetLabel = document.createElement('label');
+			star4GetLabel.htmlFor = "star4Get-" + idNum;
+			
+			let star5Get = document.createElement('input');
+			star5Get.type = "radio";
+			star5Get.id = "star5Get" + "-" + idNum;
+			star5Get.className = "star5Get";
+			star5Get.name = "rateGet" + idNum;
+			star5Get.value = "5";
+			
+			let star5GetLabel = document.createElement('label');
+			star5GetLabel.htmlFor = "star5Get-" + idNum;
+			
+			let p = document.createElement('p');
+			p.className = "creatorNames";
+			
+			// creating a modal display for each of the projects
+			let modalDiv = document.createElement('div');
+			modalDiv.className = "modal";
+			modalDiv.id = "modalDiv" + idNum;
+			
+			let modalClose = document.createElement('span');
+			modalClose.className = "close";
+			modalClose.innerHTML = "&#10005;";
+			
+			let modalInnerDiv = document.createElement('div');
+			modalInnerDiv.className = "modalTextDiv";
+			
+			let modalHead = document.createElement('h1');
+			modalHead.className = "modalHead";
+			
+			let modalCreator = document.createElement('p');
+			modalCreator.className = "modalCreator";
+			
+			let modalHr = document.createElement('hr');
+			
+			let modalDescrip = document.createElement('p');
+			modalDescrip.className = "modalDescrip";
+			
+			// our star rating system
+			let modalRateForm = document.createElement('form');
+			modalRateForm.className = "rate";
+			modalRateForm.id = "rateForm" + idNum;
+			modalRateForm.action = "/addRating";
+			modalRateForm.method = "post";
+			modalRateForm.name = `${obj.projects[proj].project}`;
+			
+			let star1 = document.createElement('input');
+			star1.type = "radio";
+			star1.id = "star1" + "-" + idNum;
+			star1.className = "star";
+			star1.name = "rate" + idNum;
+			star1.value = "1";
+			
+			let star1Label = document.createElement('label');
+			star1Label.htmlFor = "star1-" + idNum;
+			star1Label.className = "star1Label";
+			
+			let star2 = document.createElement('input');
+			star2.type = "radio";
+			star2.id = "star2" + "-" + idNum;
+			star2.className = "star";
+			star2.name = "rate" + idNum;
+			star2.value = "2";
+			
+			let star2Label = document.createElement('label');
+			star2Label.htmlFor = "star2-" + idNum;
+			star2Label.className = "star2Label";
+			
+			let star3 = document.createElement('input');
+			star3.type = "radio";
+			star3.id = "star3" + "-" + idNum;
+			star3.className = "star";
+			star3.name = "rate" + idNum;
+			star3.value = "3";
+			
+			let star3Label = document.createElement('label');
+			star3Label.htmlFor = "star3-" + idNum;
+			star3Label.className = "star3Label";
+			
+			let star4 = document.createElement('input');
+			star4.type = "radio";
+			star4.id = "star4" + "-" + idNum;
+			star4.className = "star";
+			star4.name = "rate" + idNum;
+			star4.value = "4";
+			
+			let star4Label = document.createElement('label');
+			star4Label.htmlFor = "star4-" + idNum;
+			star4Label.className = "star4Label";
+			
+			let star5 = document.createElement('input');
+			star5.type = "radio";
+			star5.id = "star5" + "-" + idNum;
+			star5.className = "star";
+			star5.name = "rate" + idNum;
+			star5.value = "5";
+			
+			let star5Label = document.createElement('label');
+			star5Label.htmlFor = "star5-" + idNum;
+			star5Label.className = "star5Label";
+			
+			let submit = document.createElement('input');
+			submit.type = "submit";
+			submit.id = "submit" + idNum;
+			submit.className = "submitButton2";
+			submit.style.position = "static";
+			submit.value = "SUBMIT";
+			// the rating average stored for the project
+			if(isNaN(obj.projects[proj].rating) != true){
+				let ratingAvg = Math.floor(Number(obj.projects[proj].rating));
+				
+				// check the correct number of stars based on avg rating
+				if(ratingAvg == 1){
+					star1Get.checked = true;
+				}
+				else if(ratingAvg == 2){
+					star2Get.checked = true;
+				}
+				else if(ratingAvg == 3){
+					star3Get.checked = true;
+				}
+				else if(ratingAvg == 4){
+					star4Get.checked = true;
+				}
+				else if(ratingAvg == 5){
+					star5Get.checked = true;
+				}
+			}
+			
+			h1.textContent = `${obj.projects[proj].project}`;
+			
+			p.textContent = `by ${obj.projects[proj].name}`;
+			
+			modalHead.textContent = `${obj.projects[proj].project}`;
+			modalCreator.textContent = `by ${obj.projects[proj].name}`;
+			modalDescrip.textContent = `${obj.projects[proj].description}`;
+			
+			//append divs to our mainDiv and add the h1, rating buttons and p tags to it
+			content.appendChild(div);
+			div.appendChild(h1);
+			div.appendChild(star5Get);
+			div.appendChild(star5GetLabel);
+			div.appendChild(star4Get);
+			div.appendChild(star4GetLabel);
+			div.appendChild(star3Get);
+			div.appendChild(star3GetLabel);
+			div.appendChild(star2Get);
+			div.appendChild(star2GetLabel);
+			div.appendChild(star1Get);
+			div.appendChild(star1GetLabel);
+			div.appendChild(p);
+			
+			// appending our hidden modal divs and adding tags to it
+			content.appendChild(modalDiv);
+			modalDiv.appendChild(modalClose);
+			modalDiv.appendChild(modalInnerDiv);
+			modalInnerDiv.appendChild(modalHead);
+			modalInnerDiv.appendChild(modalCreator);
+			modalInnerDiv.appendChild(modalHr);
+			modalInnerDiv.appendChild(modalDescrip);
+			modalInnerDiv.appendChild(modalRateForm);
+			modalRateForm.appendChild(star5);
+			modalRateForm.appendChild(star5Label);
+			modalRateForm.appendChild(star4);
+			modalRateForm.appendChild(star4Label);
+			modalRateForm.appendChild(star3);
+			modalRateForm.appendChild(star3Label);
+			modalRateForm.appendChild(star2);
+			modalRateForm.appendChild(star2Label);
+			modalRateForm.appendChild(star1);
+			modalRateForm.appendChild(star1Label);
+			modalRateForm.appendChild(submit);
+			
+			//create handler
+			const addRating = (e) => sendPost(e, modalRateForm, idNum);
+	  
+			//attach submit event (for clicking submit or hitting enter)
+			modalRateForm.addEventListener('submit', addRating);
+			
+			//disabling radio buttons on main page
+			let mainRates = document.getElementsByName("rateGet" + idNum);
+			
+			for (let i = 0; i < mainRates.length; i++){
+				mainRates[i].disabled = true;
+			}
+		
+			idNum++;
+			
+		}
+		
+		// Getting the modals
+		let modal = document.getElementsByClassName("modal");
+		
+		let modalDivs = document.getElementsByClassName("getDivs");
+		
+		// our call to setup our modal onClicks
+		for (let i = 0; i < modal.length; i++){
+			modalDivs[i].addEventListener("click", modalClicked);
+			
+		}
+      } //if response was in xml
+      /*else if (type === 'text/xml') {
+		//grab the name tag and age tag from our responseXML
+		//This will only work if the responding XML is completely valid.
+		//Otherwise the responseXML field will be null
+        const message = xhr.responseXML.querySelector('message').textContent;
+        const id = xhr.responseXML.querySelector('id').textContent;
+		
+		//add the xml fields to our html elements
+        h1.textContent = `Message: ${message}`;
+        p.textContent = `Id: ${id}`; 
+      }*/
+    };
+    
+    //function to send an xhr request
+    const sendAjax = (url, acceptedType) => {
+      //create a new xhr (ajax) request. 
+      //Remember that these are ASYNCHRONOUS
+      const xhr = new XMLHttpRequest();
+      //set the xhr to a GET request to a certain URL
+      xhr.open('GET', url);
+      //Set the accept headers to the desired response mime type
+      //Server does NOT have to support this. It is a gentle request.
+      xhr.setRequestHeader ("Accept", acceptedType);
+
+      //When the xhr loads, call handleResponse and pass the xhr object
+      xhr.onload = () => handleResponse(xhr);
+      
+      //send our ajax request to the server
+      xhr.send();
+	  //console.log(acceptedType);
+    };
+
+    const init = () => {
+		const sendJSON = () => sendAjax('/getProjects', 'application/json');
+		sendJSON();
+		
+	}
+    window.onload = init;
+  </script>
+</head>
+<body id = "client2Body">
+  <section id = "navBar" class = "flexDiv">
+	<a id = "formLink" href = "client.html">Submit Your Project Idea &#8594;</a>
+  </section>
+  <section id = "mainDiv2" class = "flexDiv">
+	
+  </section>
+  <section class = "flexDiv" id = "footer"></section>
+</body>
+</html>

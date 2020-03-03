@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Our simple HTTP server</title>
+  <title>Project Idea Submission Form</title>
   <link rel="stylesheet" type="text/css" href="style.css">
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
@@ -65,7 +65,7 @@
       const projectAction = projectForm.getAttribute('action');
       const projectMethod = projectForm.getAttribute('method');
       
-      //grab the form's name and age fields so we can check user input
+      //grab the form's project, name and description fields so we can check user input
 	  const projectField = projectForm.querySelector('#projectTxt');
       const nameField = projectForm.querySelector('#nameTxt');
       const descriptionField = projectForm.querySelector('#descriptionTxt');
@@ -81,9 +81,6 @@
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       //set our requested response type in hopes of a JSON response
       xhr.setRequestHeader ('Accept', 'application/json');
-      
-      //set our function to handle the response
-      //xhr.onload = () => handleResponse(xhr);
       
       //build our x-www-form-urlencoded format. Without ajax the 
       //browser would do this automatically but it forcefully changes pages
@@ -102,6 +99,10 @@
       //return false to prevent the browser from trying to change page
       return false;
     };
+	
+	const resetForm = () => {
+		document.getElementById('projectForm').reset();
+	}
 
     const init = () => {
       //grab form
@@ -109,16 +110,22 @@
       
       //create handler
       const addProject = (e) => sendPost(e, projectForm);
+	  
       
       //attach submit event (for clicking submit or hitting enter)
       projectForm.addEventListener('submit', addProject);
+	  projectForm.addEventListener('submit', resetForm);
     };
 
     window.onload = init;
   </script>
 </head>
 <body>
-  <section id = "mainDiv">
+  <section id = "navBar" class = "flexDiv">
+	<a id = "projectsLink" href = "client2.html">View Other Projects &#8594;</a>
+  </section>
+  <section id = "mainDiv" class = "flexDiv">
+	<img id = "thoughtImg" src = "background.png" alt = "Man coming up with idea">
 	<div id = "inputDiv" class = "flexDiv">
 		<h1 id = "submitTitle">Project Idea Submission Form</h1>
 		<div class = "underline"></div>
@@ -126,9 +133,10 @@
 			<input class = "inputs" id="projectTxt" placeholder="Please enter the name of your project" type="text" name="project" required="">
 			<input class = "inputs" id="nameTxt" placeholder="Please enter your name" type="text" name="name" required="">
 			<textarea class = "inputs" id="descriptionTxt" placeholder="Please enter a description of your project idea" name="description"></textarea>
-			<input id="submitButton" class="button" type="submit" value="SUBMIT" >
+			<input class="submitButton" type="submit" value="SUBMIT" >
 		</form>
 	</div>
   </section>
+  <section class = "flexDiv" id = "footer"></section>
 </body>
 </html>

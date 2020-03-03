@@ -15,13 +15,73 @@ body{
 
 }
 
+#client2Body{
+	background: #ebebeb;
+}
+
+#navBar{
+	width: 100vw;
+	height: 10%;
+	background: #1E242C;
+}
+
+#projectsLink{
+	margin: 10px 0 0 85%;
+    font-size: 15pt;
+    padding: 10px 30px;
+    color: #fff;
+    outline: 0;
+    border: 2px solid #fff;
+	background: #1E242C;
+    box-sizing: inherit;
+    display: inline-block;
+    transition: all .5s;
+    cursor: pointer;
+	text-decoration: none;
+}
+
+#projectsLink:hover{
+	background-color: #f25d23;
+    border-color: #f25d23;
+}
+
+#formLink{
+	margin: 10px 0 0 85%;
+    font-size: 13pt;
+    padding: 10px 30px;
+    color: #fff;
+    outline: 0;
+    border: 2px solid #fff;
+	background: #1E242C;
+    box-sizing: inherit;
+    display: inline-block;
+    transition: all .5s;
+    cursor: pointer;
+	text-decoration: none;
+}
+
+#formLink:hover{
+	background-color: #f25d23;
+    border-color: #f25d23;
+}
+
 #mainDiv{
-	background-image: url("background.png");
-	background-repeat: no-repeat;
-	height: 100%;
+	background-color: black;
+	height: 80%;
     width: 100vw;
     margin: 0;
 	overflow:auto;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+#mainDiv2{
+	background-color: white;
+	height: 80%;
+    width: 60vw;
+    margin-left: 20%;
+	overflow:auto;
+	flex-direction: column;
 }
 
 .flexDiv{
@@ -33,13 +93,18 @@ body{
 
 #inputDiv{
 	background-color: rgba(255, 255, 255, 0.6);
-	width: 40vw;
-	height: 800px;
-	margin-top: 100px;
-	margin-right: 100px;
+	width: 35%;
+	height: 700px;
+	margin-top: 50px;
+	margin-left: 100px;
 	float: right;
 	border-radius: 50px;
 	text-align: center;
+}
+
+#thoughtImg{
+	width: 30%;
+	margin-top: 150px;
 }
 
 #projectForm{
@@ -58,7 +123,7 @@ body{
 	border-radius: 10px;
 }
 
-#submitButton{
+.submitButton{
     margin: 5px 0 0 75%;
     font-size: 12pt;
     padding: 10px 30px;
@@ -68,18 +133,19 @@ body{
 	background: #1E242C;
     box-sizing: inherit;
     display: inline-block;
+	position: static;
     transition: all .5s;
     cursor: pointer;
 	
 }
 
-#submitButton:hover{
+.submitButton:hover{
 	background-color: #f25d23;
     border-color: #f25d23;
 }
 
 #projectTxt{
-	margin-top: 100px;
+	margin-top: 50px;
 	height: 50px;
 }
 
@@ -93,13 +159,167 @@ body{
 
 #submitTitle{
 	margin-top: 50px;
-	font-size: 40pt;
+	font-size: 35pt;
 	color: white;
 }
 
 .underline{
-	width: 300px;
+	width: 200px;
 	height: 4px;
 	background: white;
 	margin-top: -30px;
+}
+
+#footer{
+	width: 100vw;
+	height: 10%;
+	background: #1E242C;
+}
+
+.getDivs{
+    width: 90%;
+	cursor: pointer;
+	background: #ebebeb;
+	margin-top: 20px;
+    transition: .3s;
+}
+
+.projectTitles{
+	text-align: left;
+	margin-left: 5vw;
+}
+
+.creatorNames{
+	text-align: left;
+	margin-left: 5vw;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+	height: 100vh;
+    overflow-x: hidden;
+    background-color: rgba(0,0,0,0.9);
+    flex-direction: column;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+	cursor: pointer;
+    transition: 0.3s;
+}
+
+.modalTextDiv{
+	background: white;
+	margin-top: 300px;
+	padding-top: 50px;
+	padding-bottom: 200px;
+	margin: auto;
+	width: 50%;
+}
+
+.modalHead{
+	font-size: 36pt;
+}
+
+.modalDescrip{
+	margin-left: 5%;
+}
+
+
+/* star radio buttons derived from https://codepen.io/hesguru/pen/BaybqXv */
+.rate{
+	width: 400px;
+	margin-top: 100px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    width:1em;
+	float:right;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:5em;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '\2605 ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+.getDivs:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.getDivs:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.getDivs:not(:checked) > label:before {
+    content: '\2605 ';
+}
+.getDivs > input:checked ~ label {
+    color: #ffc700;    
+}
+
+.submitButton2{
+	position: static;
+	margin-left: 0;
+	clear: both;
+	font-size: 12pt;
+    padding: 10px 30px;
+    color: #fff;
+    outline: 0;
+    border: 2px solid #fff;
+	background: #1E242C;
+    box-sizing: inherit;
+    display: inline-block;
+	position: static;
+    transition: all .5s;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1741px){
+	#projectsLink{
+		font-size: 12pt;
+		margin: 10px 0 0 80%;
+	}
+	#formLink{
+		margin: 10px 0 0 70%;
+	}
 }
